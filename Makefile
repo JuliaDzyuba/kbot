@@ -1,30 +1,42 @@
-APP=$(basename $(shell git remote get-url origin))	
-REGISTRY=juliadzyuba	
-VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)	
-TARGETOS=linux	
-TARGETARCH=arm64	
-	
-format:	
+#APP=$(basename $(shell git remote get-url origin))
+APP=kbot
+REGISTRY=juliadzyuba
+VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
+TARGETOS?=linux
+TARGETARCH?=arm64
+
+format:
 	gofmt -s -w ./
-	
-lint:	
-	golint
-	
-test:	
-	go test -v
-	
-get:	
+
+get:
 	go get
 
-build: format get
-	# CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${shell dpkg --print-architecture} go build -v -o kbot -ldflags "-X="github.com/JuliaDzyuba/kbot/cmd.appVersion=${VERSION}
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/JuliaDzyuba/kbot/cmd.appVersion=${VERSION}
-	
-image:	
+lint:
+	golint
+
+test:
+	go test -v
+
+build: format
+	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${shell dpkg --print-architecture} go build -v -o kbot -ldflags "-X="github.com/juliadzyuba/kbot/cmd.appVersion=${VERSION}
+
+linux:
+	$(MAKE) build TARGETOS=linux TARGETARCH=amd64
+
+macos:
+	$(MAKE) build TARGETOS=darwin TARGETARCH=amd64
+
+windows:
+	$(MAKE) build TARGETOS=windows TARGETARCH=amd64 BIN_NAME=kbot.exe
+
+arm:
+	$(MAKE) build TARGETOS=linux TARGETARCH=arm64
+
+image:
 	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
-	
-push:	
+
+push:
 	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
-	
-clean:	
+
+clean:
 	rm -rf kbot
