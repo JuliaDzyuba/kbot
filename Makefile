@@ -1,5 +1,5 @@
-#APP=$(basename $(shell git remote get-url origin))
-APP=kbot
+APP=$(shell basename $(shell git remote get-url origin))
+# APP=kbot
 REGISTRY=juliadzyuba
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS?=linux
@@ -39,4 +39,4 @@ push:
 	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 clean:
-	rm -rf kbot
+	rm -rf ${APP}
