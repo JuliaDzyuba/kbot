@@ -1,6 +1,6 @@
 APP=$(shell basename $(shell git remote get-url origin))
 # APP=kbot
-REGISTRY=juliadzyuba
+REGISTRY=ghcr.io/juliadzyuba
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS?=linux
 TARGETARCH?=arm64
