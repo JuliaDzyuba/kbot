@@ -3,5 +3,5 @@ devops app
 
 Dockerfile
 Makefile
-Helm
+Helm Chart
 Github Actions
