@@ -4,16 +4,16 @@
 
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicaCount: 1
-
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
+  registry: "ghcr.io"
   repository: juliadzyuba
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.3-f33ca2a"
-  arch: arm64
-
+  tag: "v1.0.5-ae88ff9"
+  os: linux
+  arch: amd64
 secret:
   name: "kbot"
   env: "TELE_TOKEN"

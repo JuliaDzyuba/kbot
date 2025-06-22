@@ -1,9 +1,9 @@
 APP=$(shell basename $(shell git remote get-url origin))
-# APP=kbot
-REGISTRY=juliadzyuba
+
+REGISTRY=ghcr.io/juliadzyuba
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS?=linux
-TARGETARCH?=arm64
+TARGETARCH?=amd64
 
 format:
 	gofmt -s -w ./
@@ -33,10 +33,10 @@ arm:
 	$(MAKE) build TARGETOS=linux TARGETARCH=arm64
 
 image:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 push:
-	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 clean:
 	rm -rf ${APP}
