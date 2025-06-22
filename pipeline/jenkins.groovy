@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GITHUB_TOKEN=credentials('juliadziuba')
+        GITHUB_TOKEN=credentials('JuliaDzyuba')
         REPO = 'https://github.com/JuliaDzyuba/kbot.git'
         BRANCH = 'main'
     }
